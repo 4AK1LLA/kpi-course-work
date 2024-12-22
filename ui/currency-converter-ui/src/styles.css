@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter');
+
+* {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.025rem;
+}
+
+a {
+    text-decoration: none;
+}
+
+body {
+    background-color: #0A146E;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* resolve border overlapping */
+.nav,
+.nav-item {
+    border-radius: inherit;
+}
+
+.my-convert-link {
+    border-top-left-radius: inherit;
+}
+
+.my-charts-link {
+    border-top-right-radius: inherit;
+}
+
+.my-convert-link, .my-charts-link {
+    background-color: var(--bs-gray-200);
+    color: var(--bs-gray-700);
+}
+
+.my-convert-link.active, .my-charts-link.active {
+    background-color: white;
+    color: var(--bs-blue);
+    font-weight: 600;
+}
+
+.my-convert-link:hover, .my-charts-link:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+.my-convert-link>.bi, .my-charts-link>.bi {
+    color: inherit;
+}
+
+.my-currency-input {
+    cursor: pointer;
+}
+
+.my-currency-input:focus {
+    cursor: text;
+}
+
+.my-dropdown-menu {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.my-dropdown-item:hover {
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    cursor: pointer;
+}

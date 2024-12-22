@@ -1,0 +1,93 @@
+<div class="container">
+    <div class="shadow card" style="top: -100px;">
+        <div class="card-header border-0 p-0 bg-transparent">
+            <ul class="nav nav-fill">
+                <li class="nav-item">
+                    <a (click)="router.navigate(['currency-converter'])" class="my-convert-link nav-link py-3"><i
+                            class="bi bi-cash-coin me-3"></i>Convert</a>
+                </li>
+                <li class="nav-item">
+                    <a (click)="router.navigate(['currency-chart'])" class="my-charts-link py-3 nav-link active"><i
+                            class="bi bi-graph-down me-3"></i>Charts</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body p-5">
+
+            <div class="row align-items-center gy-3 mb-5">
+
+                <div class="col-sm">
+                    <label for="from" class="form-label">From</label>
+                    <input (focus)="onCurrencyInputClear($event)" (blur)="onCurrencyInputRefresh($event, TYPE_FROM)"
+                        (input)="onCurrencyInputLiveSearch($event)" [value]="from.getDisplay()" autocomplete="off"
+                        type="text" class="my-currency-input form-control" id="from" data-bs-toggle="dropdown"
+                        data-bs-offset="0,10" placeholder="Type to search...">
+                    <div class="dropdown">
+                        <ul class="my-dropdown-menu dropdown-menu w-100">
+                            <li *ngFor="let currency of showCurrencies">
+                                <a (click)="changeCurrency(currency, TYPE_FROM)" class="my-dropdown-item dropdown-item">
+                                    {{ currency.getDisplay() }} </a>
+                            </li>
+                            <p *ngIf="showCurrencies.length == 0" class="pe-none mb-0 ms-3 text-body-secondary">No
+                                results available</p>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-sm-auto">
+                    <button (click)="swapCurrencies()" class="rounded-circle" style="width: 50px; height: 50px;">
+                        <i class="bi bi-arrow-left-right"></i>
+                    </button>
+                </div>
+
+                <div class="col-sm">
+                    <label for="to" class="form-label">To</label>
+                    <input (focus)="onCurrencyInputClear($event)" (blur)="onCurrencyInputRefresh($event, TYPE_TO)"
+                        (input)="onCurrencyInputLiveSearch($event)" [value]="to.getDisplay()" autocomplete="off"
+                        type="text" class="my-currency-input form-control" id="to" data-bs-toggle="dropdown"
+                        data-bs-offset="0,10" placeholder="Type to search...">
+                    <div class="dropdown">
+                        <ul class="my-dropdown-menu dropdown-menu w-100">
+                            <li *ngFor="let currency of showCurrencies">
+                                <a (click)="changeCurrency(currency, TYPE_TO)" class="my-dropdown-item dropdown-item">
+                                    {{ currency.getDisplay() }} </a>
+                            </li>
+                            <p *ngIf="showCurrencies.length == 0" class="pe-none mb-0 ms-3 text-body-secondary">No
+                                results available</p>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <div class="alert alert-light w-50 d-flex align-items-center mb-0" role="alert">
+                    <i class="bi bi-info-circle me-3 fs-5"></i>
+                    <span style="font-size: small;">We utilize our proprietary API and data, which are manually updated
+                        by our team members, hence ensuring accuracy and reliability.</span>
+                </div>
+                <div *ngIf="!chart" class="d-flex align-items-end">
+                    <button (click)="onParamsUpdate()" type="button" class="btn btn-primary py-2 px-5">View chart</button>
+                </div>
+            </div>
+
+            <div *ngIf="chart" class="chart mt-5">
+                <h4 class="fw-semibold" style="color: #0A146E;">{{from.code}} to {{to.code}} Chart <span [ngClass]="percent >= 0 ? 'text-success' : 'text-danger'">
+                    {{percent | number: '1.0-2'}}% </span><span class="fw-light fs-6">(1{{period[0].toUpperCase()}})</span></h4>
+                <p class="border-bottom text-secondary pb-3">{{from.displayName}} to {{to.displayName}}</p>
+                <ul class="nav nav-underline justify-content-center mb-2">
+                    <li *ngFor="let p of periods" class="nav-item">
+                        <a (click)="period = p; onParamsUpdate();" class="{{p == period ? 'nav-link active' : 'nav-link'}}">1{{p[0].toUpperCase()}}</a>
+                    </li>
+                </ul>
+            </div>
+
+            <canvas id="currency-chart" [hidden]="!chart"></canvas>
+
+            <div *ngIf="chart" class="text-center text-secondary mt-3">
+                <p>{{from.code}}/{{to.code}} <span class="fw-semibold">low:</span> {{min.value | number: '1.2-8'}} <span class="fw-semibold">high:</span> {{max.value | number: '1.2-8'}}</p>
+            </div>
+        </div>
+    </div>
+
+</div>
